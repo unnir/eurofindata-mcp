@@ -32,7 +32,8 @@ key = os.environ.get("EUROFINDATA_API_KEY")
 if not key:
     raise SystemExit("Set EUROFINDATA_API_KEY first (free key: https://eurofindata.com/dashboard/api-keys).")
 
-params = {"limit": args.limit, "active_only": str(not args.include_closed).lower()}
+# Fetch a wide window in one request, then rank locally (the API orders by date).
+params = {"limit": 1000, "active_only": str(not args.include_closed).lower()}
 if args.ticker:
     params["ticker"] = args.ticker
 if args.source:
@@ -51,7 +52,20 @@ except URLError as error:
 if not rows:
     raise SystemExit("No disclosed positions matched. That is a coverage/threshold result, not zero short interest.")
 
+if not args.include_closed:
+    # Keep each holder's latest disclosure per issuer; under 0.5% it is a
+    # below-threshold (closing) notice, not an open public position.
+    latest = {}
+    for r in rows:
+        key = (r["holder_name"].casefold(), r.get("isin") or r.get("issuer_name"))
+        if key not in latest or r["position_date"] > latest[key]["position_date"]:
+            latest[key] = r
+    rows = [r for r in latest.values() if (r.get("net_short_percent") or 0) >= 0.5]
+
 rows.sort(key=lambda r: r.get("net_short_percent") or 0, reverse=True)
+rows = rows[:args.limit]
+if not rows:
+    raise SystemExit("No open disclosed positions at or above 0.5%. Not the same as zero short interest.")
 print(f"{'net %':>6}  {'position date':<13} {'regulator':<14} {'issuer':<32} holder")
 for r in rows:
     issuer = (r.get("issuer_name") or r.get("company_name") or r.get("isin") or "?")[:32]
