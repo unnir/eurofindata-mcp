@@ -1,0 +1,8 @@
+# Registry signing material — never commit
+key.pem
+*.pem
+mcp-key.*
+.mcpregistry_*
+mcp-publisher
+__pycache__/
+.env

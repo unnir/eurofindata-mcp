@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.eurofindata/mcp",
+  "title": "European Financial Data",
+  "description": "European company financials from ESEF filings, issuer APMs and short-position disclosures.",
+  "version": "0.1.0",
+  "websiteUrl": "https://eurofindata.com/docs/mcp",
+  "repository": {
+    "url": "https://github.com/unnir/eurofindata-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://eurofindata.com/icon.svg",
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "src": "https://eurofindata.com/apple-icon.png",
+      "mimeType": "image/png"
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.eurofindata.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <account API key> from https://eurofindata.com/dashboard/api-keys. Not needed when your client signs in with OAuth.",
+          "isRequired": false,
+          "isSecret": true,
+          "placeholder": "Bearer <account-api-key>"
+        }
+      ]
+    }
+  ]
+}
