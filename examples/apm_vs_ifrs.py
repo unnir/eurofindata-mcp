@@ -73,7 +73,8 @@ rpc("initialize", {"protocolVersion": "2025-06-18", "capabilities": {},
 rpc("notifications/initialized", notify=True)
 
 statements = call("get_income_statements", ticker=ticker, period="annual", limit=5)
-row = next((r for r in statements.get("income_statements", []) if r.get("report_period") == period_end), None)
+row = next((r for r in statements.get("income_statements", [])
+            if (r.get("period_end") or r.get("report_period")) == period_end), None)
 apms = call("get_apm_metrics", ticker=ticker, period_end=period_end, limit=20)
 
 print(f"{statements.get('company', ticker)} - period ending {period_end}\n")

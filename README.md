@@ -7,7 +7,7 @@ https://api.eurofindata.com/mcp
 ```
 
 - **Hosted, remote-only:** Streamable HTTP, nothing to install or run locally.
-- **27 ESEF countries:** annual reports discovered daily from the EU's European Single Electronic Format filings. Every statement links back to its source filing.
+- **27 ESEF countries:** annual reports discovered daily from the EU's European Single Electronic Format filings. Every statement can be traced to its source filing with `get_company_filings`.
 - **More than statements:** issuer-defined alternative performance measures (APMs), net short positions from EU regulators, insider (PDMR) trades, major holdings, plus ISIN/LEI/MIC reference data.
 - **Free testing:** 300 successful data requests per account per UTC day, shared across MCP and REST. You need an account, but no card. [Get a key →](https://eurofindata.com/dashboard/api-keys)
 
@@ -127,7 +127,7 @@ get_company_filings(ticker="ASML", limit=5)
 | 2024 | 28.263 | 9.937 | 35.2% |
 | 2025 | 32.667 | 12.054 | 36.9% |
 
-Each row links to its filing, e.g. [ASML 2025 ESEF](https://filings.xbrl.org/724500Y6DUVHQD6OXN27/2025-12-31/ESEF/NL/0/asml-2025-12-31-1-en.json). Script: [`examples/asml_margin_history.py`](examples/asml_margin_history.py). Article: [eurofindata.com/research/asml-operating-margin](https://eurofindata.com/research/asml-operating-margin).
+`get_company_filings` traces each row to its source filing, e.g. [ASML 2025 ESEF](https://filings.xbrl.org/724500Y6DUVHQD6OXN27/2025-12-31/ESEF/NL/0/asml-2025-12-31-1-en.json). Script: [`examples/asml_margin_history.py`](examples/asml_margin_history.py). Article: [eurofindata.com/research/asml-operating-margin](https://eurofindata.com/research/asml-operating-margin).
 
 ### 3. European short-position disclosures
 
